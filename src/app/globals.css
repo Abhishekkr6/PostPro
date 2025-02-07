@@ -19,3 +19,10 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+.glow {
+  box-shadow: 0 0 5px theme("colors.cyan.400"), 0 0 20px theme("colors.cyan.400");
+}
+
+.glow:hover {
+  box-shadow: 0 0 10px theme("colors.cyan.400"), 0 0 40px theme("colors.cyan.400");
+}
