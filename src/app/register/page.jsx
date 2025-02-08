@@ -2,13 +2,17 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
+import { signIn } from "next-auth/react";
+import { FcGoogle } from "react-icons/fc";
+import { FaGithub } from "react-icons/fa";
+import { Link } from "lucide-react";
 
 export default function RegisterPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [agree, setAgree] = useState(false);
   const [error, setError] = useState("");
   const router = useRouter();
 
@@ -26,115 +30,120 @@ export default function RegisterPage() {
       return;
     }
 
-    // Here you would typically send the registration data to your backend
-    console.log("Registration data:", { name, email, password });
+    if (!agree) {
+      setError("You must agree to the terms and conditions");
+      return;
+    }
 
-    // Redirect to login page or dashboard after successful registration
+    console.log("Registration data:", { name, email, password });
     router.push("/login");
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="sm:mx-auto sm:w-full sm:max-w-md"
-      >
-        <h2 className="mt-6 text-center text-4xl font-extrabold text-white">
+    <div className="min-h-screen bg-black flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+      <div className="sm:mx-auto sm:w-full sm:max-w-md">
+        <h2 className="mt-6 text-center text-3xl font-extrabold text-white">
           Create your account
         </h2>
-      </motion.div>
+      </div>
 
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.2 }}
-        className="mt-8 sm:mx-auto sm:w-full sm:max-w-md"
-      >
-        <div className="bg-gray-800 py-8 px-4 shadow-lg sm:rounded-lg sm:px-10 border border-gray-700">
-          <form className="space-y-6" onSubmit={handleSubmit}>
+      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+        <div className="bg-gray-900 py-8 px-4 shadow-lg sm:rounded-lg sm:px-10 border border-gray-700">
+          <div className="space-y-3">
+            <button
+              onClick={() => signIn("google")}
+              className="w-full flex items-center justify-center py-2 px-4 rounded-md bg-white text-black hover:bg-gray-300"
+            >
+              <FcGoogle className="mr-2 text-xl" /> Continue with Google
+            </button>
+            <button
+              onClick={() => signIn("github")}
+              className="w-full flex items-center justify-center py-2 px-4 rounded-md bg-gray-800 text-white hover:bg-gray-700"
+            >
+              <FaGithub className="mr-2 text-xl" /> Continue with GitHub
+            </button>
+          </div>
+
+          <div className="mt-6 flex items-center">
+            <div className="w-full border-t border-gray-600"></div>
+            <span className="px-2 text-gray-400 text-sm">OR</span>
+            <div className="w-full border-t border-gray-600"></div>
+          </div>
+
+          <form className="space-y-6 mt-6" onSubmit={handleSubmit}>
             <div>
-              <label htmlFor="name" className="block text-sm font-medium text-gray-300">
-                Name
-              </label>
+              <label className="block text-sm font-medium text-gray-300">Name</label>
               <input
-                id="name"
-                name="name"
                 type="text"
-                autoComplete="name"
                 required
-                className="mt-1 block w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm placeholder-gray-400 bg-gray-700 text-white focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 sm:text-sm"
+                className="mt-1 block w-full px-3 py-2 border border-gray-600 rounded-md bg-gray-800 text-white"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               />
             </div>
 
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-300">
-                Email address
-              </label>
+              <label className="block text-sm font-medium text-gray-300">Email</label>
               <input
-                id="email"
-                name="email"
                 type="email"
-                autoComplete="email"
                 required
-                className="mt-1 block w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm placeholder-gray-400 bg-gray-700 text-white focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 sm:text-sm"
+                className="mt-1 block w-full px-3 py-2 border border-gray-600 rounded-md bg-gray-800 text-white"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-300">
-                Password
-              </label>
+              <label className="block text-sm font-medium text-gray-300">Password</label>
               <input
-                id="password"
-                name="password"
                 type="password"
-                autoComplete="new-password"
                 required
-                className="mt-1 block w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm placeholder-gray-400 bg-gray-700 text-white focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 sm:text-sm"
+                className="mt-1 block w-full px-3 py-2 border border-gray-600 rounded-md bg-gray-800 text-white"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
 
             <div>
-              <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-300">
-                Confirm Password
-              </label>
+              <label className="block text-sm font-medium text-gray-300">Confirm Password</label>
               <input
-                id="confirmPassword"
-                name="confirmPassword"
                 type="password"
-                autoComplete="new-password"
                 required
-                className="mt-1 block w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm placeholder-gray-400 bg-gray-700 text-white focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 sm:text-sm"
+                className="mt-1 block w-full px-3 py-2 border border-gray-600 rounded-md bg-gray-800 text-white"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
               />
             </div>
 
-            {error && (
-              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-red-400 text-sm">
-                {error}
-              </motion.div>
-            )}
+            <div className="flex items-center">
+              <input
+                type="checkbox"
+                className="h-4 w-4 border-gray-600 rounded"
+                checked={agree}
+                onChange={() => setAgree(!agree)}
+              />
+              <label className="ml-2 block text-sm text-gray-300">
+                I agree with the <a href="/terms" className="text-white hover:underline">terms and conditions</a>
+              </label>
+            </div>
+
+            {error && <div className="text-red-400 text-sm">{error}</div>}
 
             <div>
               <button
                 type="submit"
-                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-gray-900 bg-cyan-400 hover:bg-cyan-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500 transition duration-150 ease-in-out transform hover:-translate-y-1 hover:scale-105"
+                className="w-full flex justify-center py-2 px-4 rounded-md bg-white text-black hover:bg-gray-300"
               >
                 Register
               </button>
             </div>
           </form>
+
+          <div className="mt-4 text-center text-sm text-gray-300">
+            Already have an account? <a href="/login" className="text-white hover:underline">Login</a>
+          </div>
         </div>
-      </motion.div>
+      </div>
     </div>
   );
 }
