@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
-import { Link } from "lucide-react";
 
 export default function RegisterPage() {
   const [name, setName] = useState("");
@@ -14,9 +13,10 @@ export default function RegisterPage() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [agree, setAgree] = useState(false);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
 
@@ -35,14 +35,37 @@ export default function RegisterPage() {
       return;
     }
 
-    console.log("Registration data:", { name, email, password });
-    router.push("/login");
+    setLoading(true);
+
+    try {
+      const res = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username: name, email, password }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        alert("✅ Registration Successful!");
+        router.push("/login");
+      } else {
+        setError(data.error || "Something went wrong");
+      }
+    } catch (error) {
+      console.error("❌ Registration Error:", error);
+      setError("Server error, please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="min-h-screen bg-black flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <h2 className="mt-6 text-center text-3xl font-extrabold text-white">
+        <h2 className="mt-6 text-center text-3xl font-bold text-white">
           Create your account
         </h2>
       </div>
@@ -72,7 +95,9 @@ export default function RegisterPage() {
 
           <form className="space-y-6 mt-6" onSubmit={handleSubmit}>
             <div>
-              <label className="block text-sm font-medium text-gray-300">Name</label>
+              <label className="block text-sm font-medium text-gray-300">
+                Name
+              </label>
               <input
                 type="text"
                 required
@@ -83,7 +108,9 @@ export default function RegisterPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-300">Email</label>
+              <label className="block text-sm font-medium text-gray-300">
+                Email
+              </label>
               <input
                 type="email"
                 required
@@ -94,7 +121,9 @@ export default function RegisterPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-300">Password</label>
+              <label className="block text-sm font-medium text-gray-300">
+                Password
+              </label>
               <input
                 type="password"
                 required
@@ -105,7 +134,9 @@ export default function RegisterPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-300">Confirm Password</label>
+              <label className="block text-sm font-medium text-gray-300">
+                Confirm Password
+              </label>
               <input
                 type="password"
                 required
@@ -123,7 +154,10 @@ export default function RegisterPage() {
                 onChange={() => setAgree(!agree)}
               />
               <label className="ml-2 block text-sm text-gray-300">
-                I agree with the <a href="/terms" className="text-white hover:underline">terms and conditions</a>
+                I agree with the{" "}
+                <a href="/terms" className="text-white hover:underline">
+                  terms and conditions
+                </a>
               </label>
             </div>
 
@@ -133,14 +167,18 @@ export default function RegisterPage() {
               <button
                 type="submit"
                 className="w-full flex justify-center py-2 px-4 rounded-md bg-white text-black hover:bg-gray-300"
+                disabled={loading}
               >
-                Register
+                {loading ? "Registering..." : "Register"}
               </button>
             </div>
           </form>
 
           <div className="mt-4 text-center text-sm text-gray-300">
-            Already have an account? <a href="/login" className="text-white hover:underline">Login</a>
+            Already have an account?{" "}
+            <a href="/login" className="text-white hover:underline">
+              Login
+            </a>
           </div>
         </div>
       </div>
