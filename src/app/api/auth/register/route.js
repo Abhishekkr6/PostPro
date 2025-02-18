@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
+import bcryptjs from "bcryptjs"; 
 import dbConnect from "@/lib/db";
 import User from "@/models/User";
+import { sendEmail } from "@/helpers/mailer";
 
 export async function POST(request) {
   try {
@@ -17,22 +19,35 @@ export async function POST(request) {
 
     console.log("📌 Checking Existing User...");
     const existingUser = await User.findOne({ email: email.trim().toLowerCase() });
-    console.log("📌 Existing User Found:", existingUser);  // 🔍 Debugging
 
     if (existingUser) {
       console.log("❌ User already exists!");
       return NextResponse.json({ error: "User already exists!" }, { status: 400 });
     }
 
-    console.log("✅ Creating New User...");
-    const newUser = await User.create({
-      username: username.trim(),
-      email: email.trim().toLowerCase(),
-      password: password.trim(),
-    });
+    console.log("🔐 Hashing Password...");
+    const salt = await bcryptjs.genSalt(10);
+    const hashedPassword = await bcryptjs.hash(password.trim(), salt); 
 
-    console.log("🎉 User Registered Successfully:", newUser);
-    return NextResponse.json({ message: "User registered successfully!" }, { status: 201 });
+    console.log("✅ Creating New User...");
+    const newUser = new User ({
+      username,
+      email,
+      password: hashedPassword
+    })
+
+    const savedUser = await newUser.save()
+
+    console.log(savedUser)
+
+    await sendEmail({email, emailType: "VERIFY", userId: savedUser._id})
+
+    return NextResponse.json({
+      message: "User registered successfully.",
+      success: true,
+      savedUser
+    })
+
 
   } catch (error) {
     console.error("🔥 Error:", error);

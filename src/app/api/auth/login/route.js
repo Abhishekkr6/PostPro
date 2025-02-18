@@ -1,30 +1,35 @@
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
-import db from "@/lib/db"; // 🔹 तुम्हारा database connection
+import dbConnect from "@/lib/db";
+import User from "@/models/User";
 
 export async function POST(req) {
   try {
+    await dbConnect();
+
     const { email, password } = await req.json();
 
-    // 1️⃣ - Check if user exists in the database
-    const user = await db.user.findUnique({
-      where: { email: email },
-    });
+    console.log("📌 Checking if User Exists...");
+    const user = await User.findOne({ email: email.trim().toLowerCase() });
 
     if (!user) {
-      return NextResponse.json({ error: "❌ User not found!" }, { status: 400 });
+      console.log("❌ User not found!");
+      return NextResponse.json({ error: "User not found!" }, { status: 400 });
     }
 
-    // 2️⃣ - Compare entered password with hashed password
-    const isMatch = await bcrypt.compare(password, user.password);
+    console.log("🔑 Comparing Password...");
+    const isMatch = await bcrypt.compare(password, user.password); 
+
     if (!isMatch) {
-      return NextResponse.json({ error: "❌ Invalid Password!" }, { status: 400 });
+      console.log("❌ Invalid Password!");
+      return NextResponse.json({ error: "Invalid Password!" }, { status: 400 });
     }
 
-    // 3️⃣ - If everything is correct, return success response
-    return NextResponse.json({ success: "✅ Login successful!" });
+    console.log("✅ Login Successful!");
+    return NextResponse.json({ message: "Login successful!" });
 
   } catch (error) {
-    return NextResponse.json({ error: "⚠️ Something went wrong!" }, { status: 500 });
+    console.error("🔥 Error:", error);
+    return NextResponse.json({ error: "Something went wrong!" }, { status: 500 });
   }
 }
