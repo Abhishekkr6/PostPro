@@ -5,6 +5,12 @@ import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
+import { z } from "zod";
+
+const loginSchema = z.object({
+  email: z.string().email("Invalid email address"),
+  password: z.string().min(6, "Password must be at least 6 characters"),
+});
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -16,8 +22,9 @@ export default function LoginPage() {
     e.preventDefault();
     setMessage("");
 
-    if (!email || !password) {
-      setMessage("⚠️ All fields are required.");
+    const validation = loginSchema.safeParse({ email, password });
+    if (!validation.success) {
+      setMessage(validation.error.issues[0].message);
       return;
     }
 
@@ -26,13 +33,14 @@ export default function LoginPage() {
         redirect: false,
         email,
         password,
+        callbackUrl: "/home",
       });
 
       if (res?.error) {
         setMessage("❌ Invalid Email or Password!");
       } else {
         setMessage("✅ Login successful! Redirecting...");
-        setTimeout(() => router.push("/dashboard"), 1500);
+        setTimeout(() => router.push("/home"), 1500);
       }
     } catch (error) {
       setMessage("❌ Server error! Please try again.");
@@ -49,16 +57,15 @@ export default function LoginPage() {
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-gray-900 py-8 px-4 shadow-lg sm:rounded-lg sm:px-10 border border-gray-700">
-          {/* Google & GitHub Login */}
           <div className="space-y-3">
             <button
-              onClick={() => signIn("google", { callbackUrl: "/dashboard" })}
+              onClick={() => signIn("google", { callbackUrl: "/home" })}
               className="w-full flex items-center justify-center py-2 px-4 rounded-md bg-white text-black hover:bg-gray-300"
             >
               <FcGoogle className="mr-2 text-xl" /> Continue with Google
             </button>
             <button
-              onClick={() => signIn("github", { callbackUrl: "/dashboard" })}
+              onClick={() => signIn("github", { callbackUrl: "/home" })}
               className="w-full flex items-center justify-center py-2 px-4 rounded-md bg-gray-800 text-white hover:bg-gray-700"
             >
               <FaGithub className="mr-2 text-xl" /> Continue with GitHub
@@ -71,7 +78,6 @@ export default function LoginPage() {
             <div className="w-full border-t border-gray-600"></div>
           </div>
 
-          {/* Email & Password Login */}
           <form className="space-y-6 mt-6" onSubmit={handleSubmit}>
             <div>
               <label className="block text-sm font-medium text-gray-300">Email</label>
@@ -118,7 +124,6 @@ export default function LoginPage() {
             </div>
           </form>
 
-          {/* Register Link */}
           <div className="mt-4 text-center">
             <p className="text-gray-400">
               Don't have an account?{" "}
