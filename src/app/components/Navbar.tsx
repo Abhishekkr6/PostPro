@@ -49,9 +49,9 @@ const Navbar: React.FC = () => {
             </Link>
           </div>
           <div className="flex items-center gap-5">
-            <div>
+            <Link href="https://github.com/Abhishekkr6/PostPro" target="_blank">
               <i className="ri-github-line text-xl sm:text-2xl cursor-pointer text-white"></i>
-            </div>
+            </Link>
             <SignedOut>
               <SignInButton>
                 <button className="text-black font-medium cursor-pointer font-outfit bg-white px-3 py-2 rounded-md text-xs sm:text-sm ease-in-out duration-200 hover:bg-gray-200">

@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     icon: "/images/favicon.jpg", 
     apple: "/images/favicon.jpg",
     other: [
-      { rel: "icon", url: "/images/favicon.jpg", sizes: "any" },
+      { rel: "icon", url: "/images/favicon.png", sizes: "any" },
     ],
   },
   title: "PostPro | API Testing Web App",

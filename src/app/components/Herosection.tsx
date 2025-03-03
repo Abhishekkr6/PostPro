@@ -2,6 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
+import Button from "./ui/Button";
 
 export default function HeroSection() {
   return (
@@ -20,14 +21,14 @@ export default function HeroSection() {
         </span>{" "}
         Tool
       </h1>
-      <p className="mt-4 text-white/80 text-lg sm:text-xl md:text-2xl max-w-xl leading-relaxed"> 
-        Discover a platform where powerful API testing meets unparalleled ease-of-use, empowering you to build and optimize with confidence.
+      <p className="mt-4 text-white/60 text-lg sm:text-xl md:text-2xl max-w-xl leading-relaxed"> 
+      Unlock superior performance and ease-of-use, transforming your API challenges into smooth, efficient processes.
       </p>
       <Link
         href="/signup"
-        className="mt-8 bg-white text-black font-mono text-lg font-semibold py-3 px-6 rounded-lg shadow-lg transition duration-300 hover:bg-gray-200"
+        className="font-outfit"
       >
-        Get Started <i className="ri-arrow-right-up-fill"></i>
+        <Button />
       </Link>
     </section>
   );
