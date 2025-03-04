@@ -56,7 +56,7 @@ export default function FeaturesSection() {
   ]
 
   return (
-    <section className="relative z-10 mt-12 mx-auto max-w-6xl flex flex-col items-center justify-center gap-6 min-h-screen bg-transparent text-center px-4 py-16">
+    <section className="relative z-10 mt-10 mx-auto max-w-6xl flex flex-col items-center justify-center gap-6 min-h-screen bg-transparent text-center px-4 py-16">
       <div className="text-center mb-5">
         <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-6 font-abel bg-gradient-to-r from-cyan-500 via-cyan-500 via-blue-500 via-green-500 via-blue-500 via-indigo-500 to-purple-500 bg-clip-text text-transparent rainbow-animation">
           __Key Features__
