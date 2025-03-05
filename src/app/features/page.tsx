@@ -61,7 +61,7 @@ export default function FeaturesSection() {
         <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-6 font-abel bg-gradient-to-r from-cyan-500 via-cyan-500 via-blue-500 via-green-500 via-blue-500 via-indigo-500 to-purple-500 bg-clip-text text-transparent rainbow-animation">
           __Key Features__
         </h2>
-        <p className="text-lg text-gray-400 max-w-3xl font-delius mx-auto">
+        <p className="text-lg text-gray-400 max-w-3xl font-outfit mx-auto">
           Everything you need to build, test, and manage your APIs with ease and efficiency.
         </p>
       </div>

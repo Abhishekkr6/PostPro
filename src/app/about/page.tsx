@@ -6,6 +6,7 @@ import { Button } from "../components/ui/Button"
 import { Card, CardContent } from "../components/ui/Card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/Tabs"
 
+
 export default function AboutPage() {
   const [activeSection, setActiveSection] = useState("journey")
 
@@ -28,11 +29,11 @@ export default function AboutPage() {
         </div>
 
         <div className="container relative z-10 px-4 md:px-6 text-center">
-          <h1 className="text-4xl md:text-6xl font-bold tracking-tighter mb-4 animate-fade-in">
+          <h1 className="text-4xl md:text-6xl font-abel font-bold tracking-tighter mb-4 animate-fade-in">
             About{" "}
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-blue-500">PostPro</span>
           </h1>
-          <p className="max-w-3xl mx-auto text-lg md:text-xl text-zinc-300 animate-fade-in-delay">
+          <p className="max-w-3xl mx-auto text-lg md:text-xl text-zinc-300 animate-fade-in-delay font-outfit">
             More than just an API testing platform—its the culmination of a journey driven by innovation, passion, and
             a commitment to simplifying the complex world of API development.
           </p>
@@ -45,7 +46,7 @@ export default function AboutPage() {
           <div className="flex flex-col md:flex-row gap-8">
             {/* Sidebar Navigation */}
             <div className="md:w-1/4">
-              <h2 className="text-xl font-semibold mb-4 text-zinc-100">Explore Our Story</h2>
+              <h2 className="text-xl font-semibold font-outfit mb-4 text-zinc-100">Explore Our Story</h2>
               <TabsList className="flex flex-col h-auto bg-transparent space-y-1">
                 {sections.map((section) => (
                   <TabsTrigger
@@ -69,15 +70,15 @@ export default function AboutPage() {
             <div className="md:w-3/4">
               <div className="bg-zinc-900/50 rounded-xl p-6 md:p-8 border border-zinc-800">
                 <TabsContent value="journey" className="mt-0 space-y-6 animate-in fade-in">
-                  <h3 className="text-2xl font-bold mb-4">Our Journey</h3>
-                  <p className="text-zinc-300">
+                  <h3 className="text-2xl font-bold mb-4 font-outfit">Our Journey</h3>
+                  <p className="text-zinc-300 font-outfit">
                     Our story began with a simple idea: to empower developers by transforming the intricate process of
                     API testing into an intuitive, efficient, and enjoyable experience. Through overcoming challenges
                     and continuous iteration, we have evolved PostPro into a robust solution that meets the modern
                     developers needs.
                   </p>
 
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6 font-outfit">
                     {[
                       {
                         title: "Inception",
@@ -96,7 +97,7 @@ export default function AboutPage() {
                       },
                     ].map((item, i) => (
                       <Card key={i} className="bg-zinc-800/50 border-zinc-700 hover:border-zinc-600 transition-colors">
-                        <CardContent className="p-6 flex flex-col items-center text-center">
+                        <CardContent className="p-6 flex flex-col items-center text-center text-white">
                           <div className="mb-4">{item.icon}</div>
                           <h4 className="font-semibold text-lg mb-2">{item.title}</h4>
                           <p className="text-zinc-400 text-sm">{item.desc}</p>
@@ -107,8 +108,8 @@ export default function AboutPage() {
                 </TabsContent>
 
                 <TabsContent value="mission" className="mt-0 space-y-6 animate-in fade-in">
-                  <h3 className="text-2xl font-bold mb-4">Mission & Vision</h3>
-                  <p className="text-zinc-300">
+                  <h3 className="text-2xl font-bold mb-4 font-outfit">Mission & Vision</h3>
+                  <p className="text-zinc-300 font-outfit">
                     Our mission is to streamline API testing and management, enabling faster development cycles and
                     higher-quality software. We envision a future where every developer can seamlessly build, test, and
                     manage APIs without being hindered by cumbersome processes.
@@ -116,21 +117,21 @@ export default function AboutPage() {
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
                     <div className="bg-gradient-to-br from-zinc-800 to-zinc-900 p-6 rounded-lg border border-zinc-700">
-                      <h4 className="text-xl font-semibold mb-3 flex items-center">
+                      <h4 className="text-xl font-semibold mb-3 flex items-center font-outfit">
                         <Zap className="w-6 h-6 mr-2 text-purple-400" />
                         Our Mission
                       </h4>
-                      <p className="text-zinc-300">
+                      <p className="text-zinc-300 font-outfit">
                         To streamline API testing and management, enabling faster development cycles and higher-quality
                         software.
                       </p>
                     </div>
                     <div className="bg-gradient-to-br from-zinc-800 to-zinc-900 p-6 rounded-lg border border-zinc-700">
-                      <h4 className="text-xl font-semibold mb-3 flex items-center">
+                      <h4 className="text-xl font-semibold mb-3 flex items-center font-outfit">
                         <Lightbulb className="w-6 h-6 mr-2 text-blue-400" />
                         Our Vision
                       </h4>
-                      <p className="text-zinc-300">
+                      <p className="text-zinc-300 font-outfit">
                         A future where every developer can seamlessly build, test, and manage APIs without being
                         hindered by cumbersome processes.
                       </p>
@@ -139,8 +140,8 @@ export default function AboutPage() {
                 </TabsContent>
 
                 <TabsContent value="technology" className="mt-0 space-y-6 animate-in fade-in">
-                  <h3 className="text-2xl font-bold mb-4">Technology & Innovation</h3>
-                  <p className="text-zinc-300">
+                  <h3 className="text-2xl font-bold mb-4 font-outfit">Technology & Innovation</h3>
+                  <p className="text-zinc-300 font-outfit">
                     At the heart of PostPro lies a blend of cutting-edge technology and innovative design. We harness
                     the latest advancements to create a scalable, high-performance platform that not only simplifies API
                     testing but also integrates effortlessly with your existing workflows.
@@ -165,7 +166,7 @@ export default function AboutPage() {
                       },
                     ].map((item, i) => (
                       <Card key={i} className="bg-zinc-800/50 border-zinc-700 hover:border-zinc-600 transition-colors">
-                        <CardContent className="p-6 flex flex-col items-center text-center">
+                        <CardContent className="p-6 flex flex-col items-center text-center text-white">
                           <div className="mb-4">{item.icon}</div>
                           <h4 className="font-semibold text-lg mb-2">{item.title}</h4>
                           <p className="text-zinc-400 text-sm">{item.desc}</p>
@@ -176,8 +177,8 @@ export default function AboutPage() {
                 </TabsContent>
 
                 <TabsContent value="approach" className="mt-0 space-y-6 animate-in fade-in">
-                  <h3 className="text-2xl font-bold mb-4">User-Centric Approach</h3>
-                  <p className="text-zinc-300">
+                  <h3 className="text-2xl font-bold mb-4 font-outfit">User-Centric Approach</h3>
+                  <p className="text-zinc-300 font-outfit">
                     Every aspect of PostPro is designed with the user in mind. From a clean, modern UI to intuitive
                     features, our platform is built to address real-world challenges faced by developers. We ensure that
                     every interaction is smooth, empowering you to focus on what truly matters—building great
@@ -187,8 +188,8 @@ export default function AboutPage() {
                   <div className="relative mt-6 p-6 bg-zinc-800/50 rounded-lg border border-zinc-700">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div>
-                        <h4 className="text-xl font-semibold mb-3">Design Philosophy</h4>
-                        <ul className="space-y-2 text-zinc-300">
+                        <h4 className="text-xl font-semibold mb-3 font-outfit">Design Philosophy</h4>
+                        <ul className="space-y-2 text-zinc-300 font-outfit">
                           <li className="flex items-start">
                             <ArrowRight className="w-5 h-5 mr-2 text-purple-400 shrink-0 mt-0.5" />
                             <span>Intuitive interfaces that reduce learning curve</span>
@@ -204,8 +205,8 @@ export default function AboutPage() {
                         </ul>
                       </div>
                       <div>
-                        <h4 className="text-xl font-semibold mb-3">User Benefits</h4>
-                        <ul className="space-y-2 text-zinc-300">
+                        <h4 className="text-xl font-outfit font-semibold mb-3">User Benefits</h4>
+                        <ul className="space-y-2 text-zinc-300 font-outfit">
                           <li className="flex items-start">
                             <ArrowRight className="w-5 h-5 mr-2 text-blue-400 shrink-0 mt-0.5" />
                             <span>Reduced time spent on API testing</span>
@@ -225,8 +226,8 @@ export default function AboutPage() {
                 </TabsContent>
 
                 <TabsContent value="security" className="mt-0 space-y-6 animate-in fade-in">
-                  <h3 className="text-2xl font-bold mb-4">Security & Reliability</h3>
-                  <p className="text-zinc-300">
+                  <h3 className="text-2xl font-bold mb-4 font-outfit">Security & Reliability</h3>
+                  <p className="text-zinc-300 font-outfit">
                     Security is paramount at PostPro. Our platform is engineered with robust security measures and
                     rigorous data protection protocols, ensuring that your API testing environment is as secure as it is
                     efficient. Reliability is a cornerstone of our service, providing you with consistent performance
@@ -237,8 +238,8 @@ export default function AboutPage() {
                     <Card className="bg-zinc-800/50 border-zinc-700 hover:border-zinc-600 transition-colors">
                       <CardContent className="p-6">
                         <Shield className="w-10 h-10 text-green-400 mb-4" />
-                        <h4 className="text-xl font-semibold mb-3">Security Measures</h4>
-                        <ul className="space-y-2 text-zinc-300">
+                        <h4 className="text-xl font-semibold mb-3 font-outfit text-white">Security Measures</h4>
+                        <ul className="space-y-2 text-zinc-300 font-outfit">
                           <li className="flex items-start">
                             <ArrowRight className="w-4 h-4 mr-2 text-green-400 shrink-0 mt-1" />
                             <span>End-to-end encryption for all data</span>
@@ -257,8 +258,8 @@ export default function AboutPage() {
                     <Card className="bg-zinc-800/50 border-zinc-700 hover:border-zinc-600 transition-colors">
                       <CardContent className="p-6">
                         <Zap className="w-10 h-10 text-blue-400 mb-4" />
-                        <h4 className="text-xl font-semibold mb-3">Reliability Promise</h4>
-                        <ul className="space-y-2 text-zinc-300">
+                        <h4 className="text-xl font-semibold mb-3 font-outfit text-white">Reliability Promise</h4>
+                        <ul className="space-y-2 font-outfit text-zinc-300">
                           <li className="flex items-start">
                             <ArrowRight className="w-4 h-4 mr-2 text-blue-400 shrink-0 mt-1" />
                             <span>99.9% uptime guarantee</span>
@@ -278,8 +279,8 @@ export default function AboutPage() {
                 </TabsContent>
 
                 <TabsContent value="team" className="mt-0 space-y-6 animate-in fade-in">
-                  <h3 className="text-2xl font-bold mb-4">Our Team</h3>
-                  <p className="text-zinc-300">
+                  <h3 className="text-2xl font-bold mb-4 font-outfit">Our Team</h3>
+                  <p className="text-zinc-300 font-outfit">
                     PostPro is powered by a dedicated team of industry experts and technology enthusiasts. Our
                     collective expertise and shared passion drive us to continually push boundaries and refine our
                     platform, ensuring that we deliver the best possible experience for our users.
@@ -295,16 +296,16 @@ export default function AboutPage() {
                             className="w-full h-full object-cover"
                           />
                         </div>
-                        <h4 className="font-semibold">Team Member {i}</h4>
-                        <p className="text-zinc-400 text-sm">Role / Position</p>
+                        <h4 className="font-semibold font-outfit">Team Member {i}</h4>
+                        <p className="text-zinc-400 text-sm font-outfit">Role / Position</p>
                       </div>
                     ))}
                   </div>
                 </TabsContent>
 
                 <TabsContent value="roadmap" className="mt-0 space-y-6 animate-in fade-in">
-                  <h3 className="text-2xl font-bold mb-4">Future Roadmap</h3>
-                  <p className="text-zinc-300">
+                  <h3 className="text-2xl font-bold mb-4 font-outfit">Future Roadmap</h3>
+                  <p className="text-zinc-300 font-outfit">
                     We are committed to continuous innovation. With plans to introduce advanced automation features,
                     enhanced collaboration tools, and deeper integrations, PostPro is constantly evolving to meet the
                     emerging needs of the developer community.
@@ -315,7 +316,7 @@ export default function AboutPage() {
                     <div className="space-y-10 relative">
                       {[
                         {
-                          title: "Q1 2024",
+                          title: "Q1 2025",
                           features: [
                             "Advanced automation features",
                             "Enhanced reporting tools",
@@ -323,7 +324,7 @@ export default function AboutPage() {
                           ],
                         },
                         {
-                          title: "Q2 2024",
+                          title: "Q2 2025",
                           features: [
                             "Collaborative workspaces",
                             "Real-time testing capabilities",
@@ -331,7 +332,7 @@ export default function AboutPage() {
                           ],
                         },
                         {
-                          title: "Q3 2024",
+                          title: "Q3 2025",
                           features: [
                             "AI-powered testing suggestions",
                             "Performance optimization tools",
@@ -343,8 +344,8 @@ export default function AboutPage() {
                           <div className="absolute left-2 top-1 w-6 h-6 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 flex items-center justify-center">
                             <div className="w-2 h-2 bg-white rounded-full"></div>
                           </div>
-                          <h4 className="text-xl font-semibold mb-3">{phase.title}</h4>
-                          <ul className="space-y-2 text-zinc-300">
+                          <h4 className="text-xl font-semibold mb-3 font-outfit">{phase.title}</h4>
+                          <ul className="space-y-2 text-zinc-300 font-outfit">
                             {phase.features.map((feature, j) => (
                               <li key={j} className="flex items-start">
                                 <ArrowRight className="w-4 h-4 mr-2 text-blue-400 shrink-0 mt-1" />
@@ -359,8 +360,8 @@ export default function AboutPage() {
                 </TabsContent>
 
                 <TabsContent value="community" className="mt-0 space-y-6 animate-in fade-in">
-                  <h3 className="text-2xl font-bold mb-4">Community & Feedback</h3>
-                  <p className="text-zinc-300">
+                  <h3 className="text-2xl font-bold mb-4 font-outfit">Community & Feedback</h3>
+                  <p className="text-zinc-300 font-outfit">
                     Our users are at the heart of everything we do. We actively engage with our community, valuing every
                     piece of feedback as a stepping stone toward further improvement. Your insights drive our progress,
                     making PostPro a truly collaborative and user-driven platform.
@@ -369,21 +370,21 @@ export default function AboutPage() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
                     <Card className="bg-zinc-800/50 border-zinc-700 hover:border-zinc-600 transition-colors">
                       <CardContent className="p-6">
-                        <h4 className="text-xl font-semibold mb-4 flex items-center">
+                        <h4 className="text-xl font-semibold mb-4 flex items-center font-outfit text-white">
                           <Users className="w-6 h-6 mr-2 text-purple-400" />
                           Join Our Community
                         </h4>
-                        <p className="text-zinc-300 mb-4">
+                        <p className="text-zinc-300 mb-4 font-outfit">
                           Connect with other developers, share your experiences, and get help from our team.
                         </p>
                         <div className="flex flex-wrap gap-3 mt-4">
-                          <Button variant="outline" className="bg-zinc-800 border-zinc-700 hover:bg-zinc-700">
+                          <Button variant="outline" className="bg-white border-zinc-700 hover:bg-zinc-200">
                             Discord
                           </Button>
-                          <Button variant="outline" className="bg-zinc-800 border-zinc-700 hover:bg-zinc-700">
+                          <Button variant="outline" className="bg-white border-zinc-700 hover:bg-zinc-200">
                             GitHub
                           </Button>
-                          <Button variant="outline" className="bg-zinc-800 border-zinc-700 hover:bg-zinc-700">
+                          <Button variant="outline" className="bg-white border-zinc-700 hover:bg-zinc-200">
                             Twitter
                           </Button>
                         </div>
@@ -391,11 +392,11 @@ export default function AboutPage() {
                     </Card>
                     <Card className="bg-zinc-800/50 border-zinc-700 hover:border-zinc-600 transition-colors">
                       <CardContent className="p-6">
-                        <h4 className="text-xl font-semibold mb-4 flex items-center">
+                        <h4 className="text-xl font-semibold mb-4 flex items-center font-outfit text-white">
                           <MessageSquare className="w-6 h-6 mr-2 text-blue-400" />
                           Share Your Feedback
                         </h4>
-                        <p className="text-zinc-300 mb-4">
+                        <p className="text-zinc-300 mb-4 font-outfit">
                           Your insights help us improve. Let us know what you think about PostPro.
                         </p>
                         <Button className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700">
@@ -414,15 +415,15 @@ export default function AboutPage() {
       {/* CTA Section */}
       <section className="bg-gradient-to-b from-black to-zinc-900 py-16">
         <div className="container px-4 md:px-6 mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-4">Join us on our journey</h2>
-          <p className="max-w-2xl mx-auto text-zinc-300 mb-8">
+          <h2 className="text-3xl font-bold mb-4 font-outfit">Join us on our journey</h2>
+          <p className="max-w-2xl mx-auto text-zinc-300 mb-8 font-outfit">
             As we redefine API testing—making it simpler, faster, and more secure for developers everywhere.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700">
+            <Button  className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700">
               Get Started
             </Button>
-            <Button variant="outline" className="border-zinc-700 hover:bg-zinc-800">
+            <Button variant="outline" className="bg-white border-zinc-700 hover:bg-zinc-200 text-gray-800">
               Learn More
             </Button>
           </div>
