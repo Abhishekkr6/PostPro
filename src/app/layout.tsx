@@ -4,6 +4,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import Navbar from "./components/Navbar";
 import { Abel, Outfit, Delius_Unicase } from "next/font/google";
 import SmoothScroll from "./components/SmoothScroll";
+import { Footer } from "./components/Footer";
 
 
 const abel = Abel({
@@ -50,6 +51,7 @@ export default function RootLayout({
           <SmoothScroll />
           <div className="relative z-10 bg-transparent">{children}</div>
         </body>
+        <Footer />
       </html>
     </ClerkProvider>
   );
