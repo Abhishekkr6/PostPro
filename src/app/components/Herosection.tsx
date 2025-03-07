@@ -3,8 +3,39 @@
 import React from "react";
 import Link from "next/link";
 import GetStartedButton from "./ui/GetStartedButton";
+import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import { useState } from "react";
+import { Button } from "../components/ui/dashButton";
+import Dashboard from "../dashboard/page"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "../components/ui/dashCard";
+import { Input } from "../components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../components/ui/select";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "../components/ui/dashTabs";
+import { Textarea } from "../components/ui/textarea";
 import {
   Code,
+  FileJson,
+  Play,
+  Plus,
+  Save,
+  Send,
   Layers,
   Zap,
   Eye,
@@ -67,43 +98,74 @@ export default function HeroSection() {
     },
   ];
 
+  const [selectedMethod, setSelectedMethod] = useState("GET");
+  const [url, setUrl] = useState("https://api.example.com/users");
+  const [responseData, setResponseData] = useState(`{
+    "status": "success",
+    "data": {
+      "users": [
+        {
+          "id": 1,
+          "name": "John Doe",
+          "email": "john@example.com"
+        },
+        {
+          "id": 2,
+          "name": "Jane Smith",
+          "email": "jane@example.com"
+        }
+      ]
+    }
+  }`);
+
+  const handleSendRequest = () => {
+    console.log("Sending request to:", url);
+  };
+
   return (
     <>
-      <section className="relative z-10 mt-12 mx-auto max-w-6xl flex flex-col items-center justify-center gap-6 min-h-screen bg-transparent text-center px-4 py-16">
-        <h1 className="text-3xl sm:text-5xl text-white md:text-6xl font-outfit font-semibold leading-tight">
-          <span className="relative inline-block bg-gradient-to-r from-blue-500 via-cyan-500 via-cyan-500 via-green-500 via-blue-500 via-indigo-500 to-purple-500 bg-clip-text text-transparent rainbow-animation">
-            API Testing
-          </span>{" "}
-          Made{" "}
-          <span className="relative inline-block bg-gradient-to-r from-cyan-500 via-cyan-500 via-yellow-500 via-green-500 via-blue-500 via-indigo-500 to-purple-500 bg-clip-text text-transparent rainbow-animation">
-            Effortless
-          </span>{" "}
-          – The Ultimate{" "}
-          <span className="relative inline-block bg-gradient-to-r from-red-500 via-orange-500 via-yellow-500 via-green-500 via-blue-500 via-indigo-500 to-purple-500 bg-clip-text text-transparent rainbow-animation">
-            Developer’s
-          </span>{" "}
-          Tool
-        </h1>
-        <p className="mt-4 text-white/60 text-lg sm:text-xl md:text-2xl max-w-xl leading-relaxed">
-          Unlock superior performance and ease-of-use, transforming your API
-          challenges into smooth, efficient processes.
-        </p>
-        <Link href="/signup" className="font-outfit">
-          <GetStartedButton />
-        </Link>
-      </section>
-      <section className="relative z-10 mt-0 mx-auto max-w-6xl flex flex-col items-center justify-center gap-6 min-h-screen bg-transparent text-center px-4 py-16">
-        <div className="cursor-pointer grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 font-outfit">
-          {features.map((feature, index) => (
-            <FeatureCard
-              key={index}
-              icon={feature.icon}
-              title={feature.title}
-              description={feature.description}
-            />
-          ))}
-        </div>
-      </section>
+      <SignedOut>
+        <>
+          <section className="relative z-10 mt-12 mx-auto max-w-6xl flex flex-col items-center justify-center gap-6 min-h-screen bg-transparent text-center px-4 py-16">
+            <h1 className="text-3xl sm:text-5xl text-white md:text-6xl font-outfit font-semibold leading-tight">
+              <span className="relative inline-block bg-gradient-to-r from-blue-500 via-cyan-500 via-cyan-500 via-green-500 via-blue-500 via-indigo-500 to-purple-500 bg-clip-text text-transparent rainbow-animation">
+                API Testing
+              </span>{" "}
+              Made{" "}
+              <span className="relative inline-block bg-gradient-to-r from-cyan-500 via-cyan-500 via-yellow-500 via-green-500 via-blue-500 via-indigo-500 to-purple-500 bg-clip-text text-transparent rainbow-animation">
+                Effortless
+              </span>{" "}
+              – The Ultimate{" "}
+              <span className="relative inline-block bg-gradient-to-r from-red-500 via-orange-500 via-yellow-500 via-green-500 via-blue-500 via-indigo-500 to-purple-500 bg-clip-text text-transparent rainbow-animation">
+                Developer’s
+              </span>{" "}
+              Tool
+            </h1>
+            <p className="mt-4 text-white/60 font-outfit text-lg sm:text-xl md:text-2xl max-w-xl leading-relaxed">
+              Unlock superior performance and ease-of-use, transforming your API
+              challenges into smooth, efficient processes.
+            </p>
+            <Link href="/signup" className="font-outfit">
+              <GetStartedButton />
+            </Link>
+          </section>
+          <section className="relative z-10 mt-0 mx-auto max-w-6xl flex flex-col items-center justify-center gap-6 min-h-screen bg-transparent text-center px-4 py-16">
+            <div className="cursor-pointer grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 font-outfit">
+              {features.map((feature, index) => (
+                <FeatureCard
+                  key={index}
+                  icon={feature.icon}
+                  title={feature.title}
+                  description={feature.description}
+                />
+              ))}
+            </div>
+          </section>
+        </>
+      </SignedOut>
+      <SignedIn>
+       <Dashboard />
+      </SignedIn>
     </>
   );
 }

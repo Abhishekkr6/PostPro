@@ -52,7 +52,7 @@ export default function AboutPage() {
                   <TabsTrigger
                     key={section.id}
                     value={section.id}
-                    className={`flex items-center justify-start gap-2 px-4 py-3 w-full text-left rounded-lg transition-all ${
+                    className={`flex items-center justify-start gap-2 px-4 py-3 font-outfit w-full text-left rounded-lg transition-all ${
                       activeSection === section.id
                         ? "bg-zinc-800 text-white"
                         : "text-zinc-400 hover:text-white hover:bg-zinc-900"
