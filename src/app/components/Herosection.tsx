@@ -6,7 +6,7 @@ import GetStartedButton from "./ui/GetStartedButton";
 import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import { useState } from "react";
 import { Button } from "../components/ui/dashButton";
-import Dashboard from "../dashboard/page"
+import Dashboard from "../dashboard/page";
 import {
   Card,
   CardContent,
@@ -145,9 +145,11 @@ export default function HeroSection() {
               Unlock superior performance and ease-of-use, transforming your API
               challenges into smooth, efficient processes.
             </p>
-            <Link href="/signup" className="font-outfit">
-              <GetStartedButton />
-            </Link>
+            <SignInButton>
+              <Button className="font-outfit rounded-full px-0 py-0">
+                <GetStartedButton />
+              </Button>
+            </SignInButton>
           </section>
           <section className="relative z-10 mt-0 mx-auto max-w-6xl flex flex-col items-center justify-center gap-6 min-h-screen bg-transparent text-center px-4 py-16">
             <div className="cursor-pointer grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 font-outfit">
@@ -164,7 +166,7 @@ export default function HeroSection() {
         </>
       </SignedOut>
       <SignedIn>
-       <Dashboard />
+        <Dashboard />
       </SignedIn>
     </>
   );
