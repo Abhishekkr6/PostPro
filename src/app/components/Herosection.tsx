@@ -126,7 +126,7 @@ export default function HeroSection() {
     <>
       <SignedOut>
         <>
-          <section className="relative z-10 mt-12 mx-auto max-w-6xl flex flex-col items-center justify-center gap-6 min-h-screen bg-transparent text-center px-4 py-16">
+          <section className="relative z-10 mt-12 h-auto mx-auto max-w-6xl flex flex-col items-center justify-center gap-6 min-h-screen text-center px-4 py-16">
             <h1 className="text-3xl sm:text-5xl text-white md:text-6xl font-outfit font-semibold leading-tight">
               <span className="relative inline-block bg-gradient-to-r from-blue-500 via-cyan-500 via-cyan-500 via-green-500 via-blue-500 via-indigo-500 to-purple-500 bg-clip-text text-transparent rainbow-animation">
                 API Testing

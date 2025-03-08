@@ -5,6 +5,7 @@ import Navbar from "./components/Navbar";
 import { Abel, Outfit, Delius_Unicase } from "next/font/google";
 import SmoothScroll from "./components/SmoothScroll";
 import { Footer } from "./components/Footer";
+import { Spotlight } from "./components/ui/spotlight-new";
 
 
 const abel = Abel({
@@ -44,10 +45,11 @@ export default function RootLayout({
     <ClerkProvider>
       <html
         lang="en"
-        className={`${abel.variable} ${outfit.variable} ${delius.variable} bg-dark text-white`}
+        className={`${abel.variable} ${outfit.variable} ${delius.variable}  text-white`}
       >
         <Navbar />
         <body className="relative min-h-screen">
+          <Spotlight />
           <SmoothScroll />
           <div className="relative z-10 bg-transparent">{children}</div>
         </body>

@@ -35,7 +35,7 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="bg-transparent backdrop-blur-sm shadow-sm border-b mt-24 mb-10 w-full border-white/20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="backdrop-blur-sm shadow-sm border-b mt-24 mb-10 w-full border-white/20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div>
         <div className="mb-6 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           <Card className="bg-zinc-900 border-zinc-800">
