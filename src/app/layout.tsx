@@ -28,8 +28,8 @@ const delius = Delius_Unicase({
 
 export const metadata: Metadata = {
   icons: {
-    icon: "/images/favicon.jpg", 
-    apple: "/images/favicon.jpg",
+    icon: "/images/favicon.png", 
+    apple: "/images/favicon.png",
     other: [
       { rel: "icon", url: "/images/favicon.png", sizes: "any" },
     ],
@@ -45,10 +45,10 @@ export default function RootLayout({
     <ClerkProvider>
       <html
         lang="en"
-        className={`${abel.variable} ${outfit.variable} ${delius.variable}  text-white`}
+        className={`${abel.variable} ${outfit.variable} ${delius.variable}  text-white overflow-hidden`}
       >
         <Navbar />
-        <body className="relative min-h-screen">
+        <body className="relative min-h-screen overflow-hidden">
           <Spotlight />
           <SmoothScroll />
           <div className="relative z-10 bg-transparent">{children}</div>
