@@ -45,10 +45,10 @@ export default function RootLayout({
     <ClerkProvider>
       <html
         lang="en"
-        className={`${abel.variable} ${outfit.variable} ${delius.variable}  text-white overflow-hidden`}
+        className={`${abel.variable} ${outfit.variable} ${delius.variable}  text-white overflow-x-hidden`}
       >
         <Navbar />
-        <body className="relative min-h-screen overflow-hidden">
+        <body className="relative min-h-screen overflow-x-hidden">
           <Spotlight />
           <SmoothScroll />
           <div className="relative z-10 bg-transparent">{children}</div>
