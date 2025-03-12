@@ -1,13 +1,25 @@
 "use client";
 
 import React, { useState } from "react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/Tabs";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "../components/ui/Tabs";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "../components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Plus, Save, Play } from "lucide-react";
-import Response from "./Response"; 
+import Response from "./Response";
+import axios from "axios";
 
 const methods = ["GET", "POST", "PUT", "DELETE", "PATCH"];
 
@@ -20,42 +32,39 @@ export default function RequestBuilder() {
   const [authType, setAuthType] = useState("none");
   const [authToken, setAuthToken] = useState("");
   const [tests, setTests] = useState("");
-  const [response, setResponse] = useState<any>(null); // ✅ Response state ko handle karne ke liye
+  const [response, setResponse] = useState<any>(null); 
 
   const handleSend = async () => {
     if (!url) {
       alert("Please enter a valid URL");
       return;
     }
-
+  
     try {
-      const res = await fetch("/api/request", {
-        method: "POST",
+      const res = await axios.post("/api/request", {
+        method,
+        url,
         headers: {
-          "Content-Type": "application/json",
           ...Object.fromEntries(headers.map((h) => [h.key, h.value])),
+          ...(authType !== "none" && { Authorization: `Bearer ${authToken}` }), 
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          method,
-          url,
-          params: Object.fromEntries(params.map((p) => [p.key, p.value])),
-          body,
-          auth: authToken,
-          tests,
-        }),
+        params: Object.fromEntries(params.map((p) => [p.key, p.value])),
+        body,
+        tests,
       });
-
-      const data = await res.json();
-      setResponse(data); // ✅ Response ko state me set kar rahe hai
-    } catch (error) {
+  
+      setResponse(res.data);
+    } catch (error: any) {
       console.error("Error:", error);
       setResponse({
-        status: 500,
-        data: "Internal Server Error",
+        status: error.response?.status || 500,
+        data: error.response?.data || "Internal Server Error",
         time: 0,
       });
     }
   };
+  
 
   const handleAddHeader = () => {
     setHeaders([...headers, { key: "", value: "" }]);
@@ -86,7 +95,10 @@ export default function RequestBuilder() {
           placeholder="https://api.example.com/users"
           className="flex-1 bg-zinc-800 text-white font-outfit"
         />
-        <Button onClick={handleSend} className="bg-blue-500 hover:bg-blue-600 text-white">
+        <Button
+          onClick={handleSend}
+          className="bg-blue-500 font-outfit hover:bg-blue-600 text-white"
+        >
           Send
         </Button>
       </div>
@@ -102,7 +114,10 @@ export default function RequestBuilder() {
         </TabsList>
 
         {/* Params */}
-        <TabsContent value="params" className="border rounded-md p-4 border-zinc-800 bg-zinc-800/50 mt-2">
+        <TabsContent
+          value="params"
+          className="border rounded-md p-4 border-zinc-800 bg-zinc-800/50 mt-2"
+        >
           {params.map((param, i) => (
             <div key={i} className="grid grid-cols-3 gap-2">
               <Input
@@ -127,14 +142,20 @@ export default function RequestBuilder() {
               />
             </div>
           ))}
-          <Button onClick={handleAddParam} className="mt-2 font-outfit text-white">
+          <Button
+            onClick={handleAddParam}
+            className="mt-2 font-outfit text-white"
+          >
             <Plus className="mr-2 h-3 w-3" />
             Add Param
           </Button>
         </TabsContent>
 
         {/* Headers */}
-        <TabsContent value="headers" className="border rounded-md p-4 border-zinc-800 bg-zinc-800/50 mt-2">
+        <TabsContent
+          value="headers"
+          className="border rounded-md p-4 border-zinc-800 bg-zinc-800/50 mt-2"
+        >
           {headers.map((header, i) => (
             <div key={i} className="grid grid-cols-3 gap-2">
               <Input
@@ -159,7 +180,10 @@ export default function RequestBuilder() {
               />
             </div>
           ))}
-          <Button onClick={handleAddHeader} className="mt-2 font-outfit text-white">
+          <Button
+            onClick={handleAddHeader}
+            className="mt-2 font-outfit text-white"
+          >
             <Plus className="mr-2 h-3 w-3" />
             Add Header
           </Button>
@@ -178,12 +202,16 @@ export default function RequestBuilder() {
         {/* Auth */}
         <TabsContent value="auth">
           <Select value={authType} onValueChange={setAuthType}>
-            <SelectTrigger>
+            <SelectTrigger className="bg-zinc-800 font-outfit text-white">
               <SelectValue placeholder="Select Auth Type" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="none">No Auth</SelectItem>
-              <SelectItem value="bearer">Bearer Token</SelectItem>
+              <SelectItem value="none" className="font-outfit">
+                No Auth
+              </SelectItem>
+              <SelectItem value="bearer" className="font-outfit">
+                Bearer Token
+              </SelectItem>
             </SelectContent>
           </Select>
           {authType !== "none" && (
