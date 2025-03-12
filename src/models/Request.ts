@@ -5,8 +5,15 @@ export interface IRequest extends Document {
   method: string;
   url: string;
   headers: Record<string, any>;
+  params?: Record<string, any>;
   body: Record<string, any>;
-  response?: Record<string, any>;
+  auth?: Record<string, any>;
+  tests?: Record<string, any>;
+  response?: {
+    data?: Record<string, any>;
+    status?: number;
+    time?: number;
+  };
   statusCode?: number;
   responseTime?: number;
   success?: boolean;
@@ -22,8 +29,15 @@ const RequestSchema = new Schema<IRequest>(
     method: { type: String, required: true },
     url: { type: String, required: true },
     headers: { type: Object, default: {} },
+    params: { type: Object, default: {} },
     body: { type: Object, default: {} },
-    response: { type: Object, default: {} },
+    auth: { type: Object, default: {} },
+    tests: { type: Object, default: {} },
+    response: {
+      data: { type: Object, default: {} },
+      status: { type: Number, default: null },
+      time: { type: Number, default: null },
+    },
     statusCode: { type: Number, default: null },
     responseTime: { type: Number, default: null },
     success: { type: Boolean, default: false },
@@ -38,7 +52,7 @@ const RequestSchema = new Schema<IRequest>(
     },
   },
   {
-    timestamps: true,
+    timestamps: true, 
   }
 );
 
