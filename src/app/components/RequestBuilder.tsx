@@ -31,29 +31,36 @@ export default function RequestBuilder() {
   const [body, setBody] = useState<string>("");
   const [authType, setAuthType] = useState("none");
   const [authToken, setAuthToken] = useState("");
-  const [tests, setTests] = useState("");
-  const [response, setResponse] = useState<any>(null); 
+  const [response, setResponse] = useState<any>(null);
+  const [tests, setTests] = useState<
+    {
+      name: string;
+      condition: string;
+      expectedValue: string;
+      actualValue: string;
+    }[]
+  >([]);
 
   const handleSend = async () => {
     if (!url) {
       alert("Please enter a valid URL");
       return;
     }
-  
+
     try {
       const res = await axios.post("/api/request", {
         method,
         url,
         headers: {
           ...Object.fromEntries(headers.map((h) => [h.key, h.value])),
-          ...(authType !== "none" && { Authorization: `Bearer ${authToken}` }), 
+          ...(authType !== "none" && { Authorization: `Bearer ${authToken}` }),
           "Content-Type": "application/json",
         },
         params: Object.fromEntries(params.map((p) => [p.key, p.value])),
         body,
         tests,
       });
-  
+
       setResponse(res.data);
     } catch (error: any) {
       console.error("Error:", error);
@@ -64,7 +71,6 @@ export default function RequestBuilder() {
       });
     }
   };
-  
 
   const handleAddHeader = () => {
     setHeaders([...headers, { key: "", value: "" }]);
@@ -72,6 +78,43 @@ export default function RequestBuilder() {
 
   const handleAddParam = () => {
     setParams([...params, { key: "", value: "" }]);
+  };
+
+  const handleAddTest = () => {
+    setTests([
+      ...tests,
+      { name: "", condition: "status", expectedValue: "", actualValue: "" },
+    ]);
+  };
+
+  const handleRunTest = async () => {
+    try {
+      const res = await axios.post("/api/request", {
+        method,
+        url,
+        headers: {
+          ...Object.fromEntries(headers.map((h) => [h.key, h.value])),
+          ...(authType !== "none" && { Authorization: `Bearer ${authToken}` }),
+          "Content-Type": "application/json",
+        },
+        params: Object.fromEntries(params.map((p) => [p.key, p.value])),
+        body,
+      });
+
+      setResponse(res.data);
+
+      for (const test of tests) {
+        const result = await axios.post("/api/test", {
+          name: test.name,
+          condition: test.condition,
+          expectedValue: test.expectedValue,
+          actualValue: res.status.toString(),
+        });
+        console.log("Test Result:", result.data);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   return (
@@ -223,9 +266,65 @@ export default function RequestBuilder() {
             />
           )}
         </TabsContent>
+
+        {/* Tests */}
+        <TabsContent value="tests">
+          {tests.map((test, i) => (
+            <div key={i} className="grid grid-cols-4 gap-2 mb-2">
+              {/* Test Name */}
+              <Input
+                value={test.name}
+                onChange={(e) => {
+                  const newTests = [...tests];
+                  newTests[i].name = e.target.value;
+                  setTests(newTests);
+                }}
+                placeholder="Test Name"
+                className="bg-zinc-800 font-outfit text-white"
+              />
+              {/* Condition */}
+              <select
+                value={test.condition}
+                onChange={(e) => {
+                  const newTests = [...tests];
+                  newTests[i].condition = e.target.value;
+                  setTests(newTests);
+                }}
+                className="bg-zinc-800 font-outfit text-white"
+              >
+                <option value="status">Status Code</option>
+                <option value="responseTime">Response Time</option>
+              </select>
+              {/* Expected Value */}
+              <Input
+                value={test.expectedValue}
+                onChange={(e) => {
+                  const newTests = [...tests];
+                  newTests[i].expectedValue = e.target.value;
+                  setTests(newTests);
+                }}
+                placeholder="Expected Value"
+                className="bg-zinc-800 font-outfit text-white"
+              />
+              {/* Actual Value */}
+              <Input
+                value={test.actualValue}
+                readOnly
+                placeholder="Actual Value"
+                className="bg-zinc-800 font-outfit text-white"
+              />
+            </div>
+          ))}
+          <Button
+            onClick={handleAddTest}
+            className="mt-2 font-outfit text-white"
+          >
+            <Plus className="mr-2 h-3 w-3" />
+            Add Test
+          </Button>
+        </TabsContent>
       </Tabs>
 
-      {/* ✅ Response Section */}
       {response && (
         <Response
           data={response.response?.data || response.data}

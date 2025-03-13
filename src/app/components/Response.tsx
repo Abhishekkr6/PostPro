@@ -4,13 +4,22 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../co
 import { Button } from "@/components/ui/button";
 import { FileJson, Code } from "lucide-react";
 
+interface TestResult {
+  name: string;
+  condition: string;
+  expectedValue: string;
+  actualValue: string;
+  passed: boolean;
+}
+
 interface ResponseProps {
   data: any;
   status: number;
   time: number;
+  testResults?: TestResult[];
 }
 
-export default function Response({ data, status, time }: ResponseProps) {
+export default function Response({ data, status, time, testResults }: ResponseProps) {
   const [isPretty, setIsPretty] = useState(true);
 
   return (
@@ -74,6 +83,41 @@ export default function Response({ data, status, time }: ResponseProps) {
             </pre>
           </div>
         </CardContent>
+
+        {testResults && (
+          <CardContent>
+            <h4 className="text-purple-400 font-bold mb-2">Test Results</h4>
+            <div className="space-y-2">
+              {testResults.map((test, i) => (
+                <div
+                  key={i}
+                  className={`p-2 rounded-md ${
+                    test.passed ? "bg-green-600/20" : "bg-red-600/20"
+                  }`}
+                >
+                  <div className="flex justify-between items-center">
+                    <span className="text-white font-medium">
+                      {test.name} ({test.condition})
+                    </span>
+                    <span
+                      className={`${
+                        test.passed ? "text-green-400" : "text-red-400"
+                      } font-medium`}
+                    >
+                      {test.passed ? "Passed ✅" : "Failed ❌"}
+                    </span>
+                  </div>
+                  <div className="text-zinc-400 text-sm">
+                    Expected:{" "}
+                    <span className="font-medium">{test.expectedValue}</span>{" "}
+                    | Actual:{" "}
+                    <span className="font-medium">{test.actualValue}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        )}
       </Card>
     </div>
   );

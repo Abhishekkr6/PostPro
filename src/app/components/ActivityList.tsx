@@ -18,7 +18,7 @@ export default function ActivityList() {
   useEffect(() => {
     const fetchActivities = async () => {
       try {
-        const res = await fetch("/api/activity");
+        const res = await fetch("/api/recent");
         if (!res.ok) throw new Error("Failed to fetch activity");
         const data = await res.json();
         setActivities(data);

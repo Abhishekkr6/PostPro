@@ -21,10 +21,21 @@ export async function POST(req: NextRequest) {
     await connectDB();
 
     const body = await req.json();
-    const { method, url, headers = {}, params = {}, body: requestBody = {}, auth = {}, tests = {} } = body;
+    const {
+      method,
+      url,
+      headers = {},
+      params = {},
+      body: requestBody = {},
+      auth = {},
+      tests = [],
+    } = body;
 
     if (!method || !url) {
-      return NextResponse.json({ error: "Method and URL are required" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Method and URL are required" },
+        { status: 400 }
+      );
     }
 
     const config = {
@@ -33,12 +44,42 @@ export async function POST(req: NextRequest) {
       headers,
       params,
       data: requestBody,
-      auth: auth.username ? { username: auth.username, password: auth.password } : undefined,
+      auth: auth.username
+        ? { username: auth.username, password: auth.password }
+        : undefined,
     };
 
     const startTime = Date.now();
     const response = await axios(config);
     const responseTime = Date.now() - startTime;
+
+    const testResults = tests.map((test: any) => {
+      let passed = false;
+      let actualValue = null;
+
+      if (test.condition === "status") {
+        actualValue = response.status.toString();
+        passed = actualValue === test.expectedValue;
+      }
+
+      if (test.condition === "responseTime") {
+        actualValue = `${responseTime}ms`;
+        passed = parseInt(actualValue) <= parseInt(test.expectedValue);
+      }
+
+      if (test.condition === "body") {
+        actualValue = JSON.stringify(response.data);
+        passed = actualValue.includes(test.expectedValue);
+      }
+
+      return {
+        name: test.name,
+        condition: test.condition,
+        expectedValue: test.expectedValue,
+        actualValue,
+        passed,
+      };
+    });
 
     const savedRequest = await Request.create({
       method,
@@ -56,10 +97,19 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    return NextResponse.json(savedRequest, { status: 200 });
+    return NextResponse.json(
+      {
+        request: savedRequest,
+        testResults,
+      },
+      { status: 200 }
+    );
   } catch (error: any) {
     return NextResponse.json(
-      { error: error.message || "Failed to send request", status: error.response?.status || 500 },
+      {
+        error: error.message || "Failed to send request",
+        status: error.response?.status || 500,
+      },
       { status: error.response?.status || 500 }
     );
   }
@@ -69,10 +119,20 @@ export async function PUT(req: NextRequest) {
   try {
     await connectDB();
 
-    const { id, headers, params, body: requestBody, auth, tests } = await req.json();
+    const {
+      id,
+      headers,
+      params,
+      body: requestBody,
+      auth,
+      tests,
+    } = await req.json();
 
     if (!id) {
-      return NextResponse.json({ error: "Request ID is required" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Request ID is required" },
+        { status: 400 }
+      );
     }
 
     const updatedRequest = await Request.findByIdAndUpdate(
@@ -101,7 +161,10 @@ export async function DELETE(req: NextRequest) {
     const { id } = await req.json();
 
     if (!id) {
-      return NextResponse.json({ error: "Request ID is required" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Request ID is required" },
+        { status: 400 }
+      );
     }
 
     const deletedRequest = await Request.findByIdAndDelete(id);
@@ -110,7 +173,10 @@ export async function DELETE(req: NextRequest) {
       return NextResponse.json({ error: "Request not found" }, { status: 404 });
     }
 
-    return NextResponse.json({ message: "Request deleted successfully" }, { status: 200 });
+    return NextResponse.json(
+      { message: "Request deleted successfully" },
+      { status: 200 }
+    );
   } catch (error: any) {
     return NextResponse.json(
       { error: error.message || "Failed to delete request" },
@@ -126,10 +192,17 @@ export async function PATCH(req: NextRequest) {
     const { id, status } = await req.json();
 
     if (!id) {
-      return NextResponse.json({ error: "Request ID is required" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Request ID is required" },
+        { status: 400 }
+      );
     }
 
-    const updatedRequest = await Request.findByIdAndUpdate(id, { status }, { new: true });
+    const updatedRequest = await Request.findByIdAndUpdate(
+      id,
+      { status },
+      { new: true }
+    );
 
     if (!updatedRequest) {
       return NextResponse.json({ error: "Request not found" }, { status: 404 });
